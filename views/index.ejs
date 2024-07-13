@@ -8,8 +8,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" 
     integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" 
+    integrity="sha512-32tw0yTfC6ACuyrsO2H49lgW0+Y0/1vhzxChsb2uF61jzO5/8nR1w4qF5j+I3rYO1gG8Nmd8wT+3Bl3BzxZtWQ==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <div id="userForm">
+        <h2>Enter your details</h2>
+        <form id="form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="boy">Boy</option>
+                <option value="girl">Girl</option>
+            </select><br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
     <div id="map"></div>
 
 
@@ -20,6 +37,10 @@
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" 
     integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js" 
+    integrity="sha512-yxfxWm2m9XcP1AFscSRi+7Dk/kfeIJiWUP0N3lYyxg4+f1PioHRO9PQsSWWxtQuTfxywl7oDoLtFHVp3x2Rwmw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="/js/script.js"></script>
 </body>
 </html>
