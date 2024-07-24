@@ -4,6 +4,8 @@ const mapDiv = document.getElementById('map');
 const form = document.getElementById('form');
 
 let user = {name: '', gender: ''};
+let currentPosition = { latitude: null, longitude: null };
+let routingControl = null;
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ function initializeMap() {
     if(navigator.geolocation){
         navigator.geolocation.watchPosition((position) =>{
             const {latitude, longitude}= position.coords;
+            currentPosition = { latitude, longitude };
             socket.emit("send-location", {latitude, longitude, ...user});
         }, 
         (error)=>{
@@ -51,33 +54,35 @@ function initializeMap() {
     const markers = {};
     
     socket.on("receive-location", (data) => {
-        const {id, latitude, longitude, name, gender} = data;
+        const { id, latitude, longitude, name, gender } = data;
         map.setView([latitude, longitude]);
-    
+
         let markerIcon = gender === 'boy' ? boyIcon : girlIcon;
-    
-        if(markers[id]){
+
+        if (markers[id]) {
             markers[id].setLatLng([latitude, longitude]);
-        }
-        else{
-            markers[id] = L.marker([latitude,longitude], { icon: markerIcon})
-            .addTo(map)
-            .bindPopup(`<b>${name}</b>`)
-            .on('click', () => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((position) => {
-                        const user_lat_lng = [position.coords.latitude, position.coords.longitude];
+        } else {
+            markers[id] = L.marker([latitude, longitude], { icon: markerIcon })
+                .addTo(map)
+                .bindPopup(`<b>${name}</b>`)
+                .on('click', () => {
+                    if (currentPosition.latitude && currentPosition.longitude) {
+                        const user_lat_lng = [currentPosition.latitude, currentPosition.longitude];
                         const destination_lat_lng = [latitude, longitude];
-                        L.Routing.control({
+                        
+                        if (routingControl) {
+                            map.removeControl(routingControl);
+                        }
+
+                        routingControl = L.Routing.control({
                             waypoints: [
                                 L.latLng(user_lat_lng),
                                 L.latLng(destination_lat_lng)
                             ],
                             routeWhileDragging: true
                         }).addTo(map);
-                    });
-                }
-            });
+                    }
+                });
         }
     });
 }

@@ -1,6 +1,6 @@
 # Real-Time Location Sharing Fun Web App
 
-![Project Image](path/to/image.png)
+![Project Image](/public/images/demo.png)
 
 ## Table of Contents
 
